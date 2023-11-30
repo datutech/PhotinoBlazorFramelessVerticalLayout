@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<Platforms>AnyCPU</Platforms>
+		<RootNamespace>PhotinoBlazorFramelessVerticalLayout</RootNamespace>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>		
+		<Compile Remove="wwwroot\**" />
+		<None Include="wwwroot\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="BootstrapBlazor" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<!-- Local dependency-->
+	<ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<Reference Include="Photino.NET">
+			<HintPath>D:\Development\dt\opensource\photino\photino.NET\Photino.NET\bin\Debug\net8.0\Photino.NET.dll</HintPath>
+		</Reference>
+		<Reference Include="Photino.Blazor">
+			<HintPath>D:\Development\dt\opensource\photino\photino.Blazor\Photino.Blazor\bin\Debug\net8.0\Photino.Blazor.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+		<Reference Include="Photino.NET">
+			<HintPath>D:\Development\dt\opensource\photino\photino.NET\Photino.NET\bin\Release\net8.0\Photino.NET.dll</HintPath>
+		</Reference>
+		<Reference Include="Photino.Blazor">
+			<HintPath>D:\Development\dt\opensource\photino\photino.Blazor\Photino.Blazor\bin\Release\net8.0\Photino.Blazor.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Localization\" />
+	</ItemGroup>
+
+</Project>

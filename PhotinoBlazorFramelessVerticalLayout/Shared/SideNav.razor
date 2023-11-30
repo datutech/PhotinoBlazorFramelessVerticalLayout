@@ -1,0 +1,94 @@
+﻿<div class="sidenav-container">
+    <style>
+        .custom-popover {
+            --bs-popover-max-width: 100px;
+            --bs-popover-header-padding-y: 0rem;
+            --bs-popover-header-padding-x: 0rem;
+            --bs-popover-body-padding-x: .1rem;
+            --bs-popover-body-padding-y: .1rem;
+        }
+
+    </style>
+    @if (NavIconList != null)
+    {
+        <ul class="sidenav-list upper">
+            @foreach (var item in NavIconList)
+            {
+                <li class="is-tips" id="@item.Id" @onclick:stopPropagation @onclick="() => OnClickItem(item)">
+                    <Tooltip Placement="Placement.Right" Title="@item!.Text" Trigger="hover" Delay="200">
+                        <SideNavLink Item="@item"></SideNavLink>
+                    </Tooltip>
+                </li>
+            }
+        </ul>
+    }
+    @if (NavBottomIconList != null)
+    {
+        <ul class="sidenav-list">
+            @foreach (var item in NavBottomIconList)
+            {
+                <li class="is-tips" id="@item.Id" @onclick:stopPropagation @onclick="() => OnClickItem(item)">
+                    <Tooltip Placement="Placement.Right" Title="@item!.Text" Trigger="hover" Delay="200">
+                        <SideNavLink Item="@item"></SideNavLink>
+                    </Tooltip>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<MenuItem>? NavIconList { get; set; }
+    [Parameter]
+    public IEnumerable<MenuItem>? NavBottomIconList { get; set; }
+    [Parameter]
+    public Func<MenuItem, Task>? OnClick { get; set; }
+    private MenuItem? _prevActive;
+    private bool _first = true;
+
+    private async Task OnClickItem(MenuItem item)
+    {
+        bool rerender = item != _prevActive;
+        if (_prevActive != null && _prevActive != item)
+        {
+            _prevActive.IsActive = false;
+        }
+        _prevActive = item;
+        _prevActive.IsActive = true;
+
+        if (OnClick != null)
+        {
+            await OnClick(item);
+        }
+        if (rerender)
+        {
+            StateHasChanged();
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (_first)
+        {
+            foreach (var item in NavIconList!)
+            {
+                if (item!.IsActive)
+                {
+                    _prevActive = item;
+                    break;
+                }
+            }
+            foreach (var item in NavBottomIconList!)
+            {
+                if (item!.IsActive)
+                {
+                    _prevActive = item;
+                    break;
+                }
+            }
+            _first = false;
+        }
+        base.OnParametersSet();
+    }
+}

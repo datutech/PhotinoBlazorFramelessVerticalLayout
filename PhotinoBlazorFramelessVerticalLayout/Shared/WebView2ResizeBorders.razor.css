@@ -1,0 +1,71 @@
+﻿
+
+.window-border {
+    position: fixed;
+    z-index: 9999;
+    user-select: none;
+    app-region: no-drag;
+}
+.window-CT {
+    height: var(--window-border);
+    top: 0;
+    left: var(--window-border-corner);
+    right: var(--window-border);
+    cursor: n-resize;
+}
+
+.window-RC {
+    width: var(--window-border);
+    top: var(--window-border);
+    right: 0;
+    bottom: var(--window-border-corner);
+    cursor: w-resize;
+}
+
+.window-CB {
+    height: var(--window-border);
+    bottom: 0;
+    left: var(--window-border-corner);
+    right: var(--window-border-corner);
+    cursor: n-resize;
+}
+
+.window-LC {
+    width: var(--window-border);
+    top: var(--window-border-corner);
+    left: 0;
+    bottom: var(--window-border-corner);
+    cursor: w-resize;
+}
+
+.window-LT {
+    width: var(--window-border-corner);
+    height: var(--window-border-corner);
+    left: 0;
+    top: 0;
+    cursor: nw-resize;
+}
+
+.window-RT {
+    width: var(--window-border);
+    height: var(--window-border);
+    right: 0;
+    top: 0;
+    cursor: ne-resize;
+}
+
+.window-LB {
+    width: var(--window-border-corner);
+    height: var(--window-border-corner);
+    left: 0;
+    bottom: 0;
+    cursor: ne-resize;
+}
+
+.window-RB {
+    width: var(--window-border-corner);
+    height: var(--window-border-corner);
+    right: 0;
+    bottom: 0;
+    cursor: nw-resize;
+}

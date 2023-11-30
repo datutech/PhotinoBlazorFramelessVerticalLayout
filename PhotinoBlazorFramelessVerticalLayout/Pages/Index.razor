@@ -1,0 +1,86 @@
+﻿@page "/"
+@using PhotinoBlazorFramelessVerticalLayout1.Pages.StackedPages
+
+<SinglePageLayout NavIconList="@NavIconList" NavBottomIconList="@NavBottomIconList" OnNavClick=@HandleNavClicked>
+    <Main>
+        <SessionsPage PageId="@_sessionsPageItem.Id" Active="@_sessionsPageItem.IsActive"></SessionsPage>
+        <SftpPage PageId="@_sftpPageItem.Id" Active="@_sftpPageItem.IsActive"></SftpPage>
+        <ActionsPage PageId="@_actionsPageItem.Id" Active="@_actionsPageItem.IsActive"></ActionsPage>
+    </Main>
+</SinglePageLayout>
+
+@code
+{
+    private static MenuItem _hostsPageItem = new("Hosts", icon: "icp-data-server")
+        {
+            Id = "hosts_page",
+            IsActive = true
+        };
+
+    private static MenuItem _sessionsPageItem = new("Sessions", icon: "icp-terminal")
+        {
+            Id = "sessions_page",
+            IsActive = true
+        };
+    private static MenuItem _sftpPageItem = new("SFTP", icon: "icp-seo-folder")
+        {
+            Id = "sftp_page",
+        };
+    private static MenuItem _actionsPageItem = new("Actions", icon: "icp-replay-music")
+        {
+            Id = "actions_page",
+        };
+
+    private static IEnumerable<MenuItem> NavIconList = new List<MenuItem>
+    {
+        _sessionsPageItem,
+        _sftpPageItem,
+        _actionsPageItem,
+    };
+
+    private IEnumerable<MenuItem> NavBottomIconList = new List<MenuItem>
+    {
+        new("Account", icon: "fa-solid fa-users")
+        {
+            Id = "account_page",
+        },
+        new("Settings", icon: "fa-solid fa-gear")
+        {
+            Id = "settings_page",
+        },
+    };
+
+    private MenuItem _activeItem = _sessionsPageItem;
+
+    private Task HandleNavClicked(MenuItem clickedItem)
+    {
+        bool rerender = clickedItem != _activeItem;
+        if (_activeItem != null && _activeItem != clickedItem)
+        {
+            _activeItem.IsActive = false;
+        }
+        _activeItem = clickedItem;
+        _activeItem.IsActive = true;
+        if (rerender)
+        {
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        // Ensure 
+        foreach (var item in NavIconList)
+        {
+            item.IsActive = false;
+        }
+        foreach (var item in NavBottomIconList)
+        {
+            item.IsActive = false;
+        }
+        _activeItem.IsActive = true;
+
+        return base.OnInitializedAsync();
+    }
+}

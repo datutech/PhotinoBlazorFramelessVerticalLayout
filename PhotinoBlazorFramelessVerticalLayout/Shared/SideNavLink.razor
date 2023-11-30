@@ -1,0 +1,30 @@
+﻿
+<div class="@CssClassString">
+    <i class="@IconString"></i>
+</div>
+
+
+@code {
+    [Parameter]
+    public MenuItem? Item { get; set; }
+
+    private string? IconString => Item!.Icon;
+    private string CssClassString => Item!.IsActive ? "sidenav-link active" : "sidenav-link";
+    private bool _shouldRender = true;
+    private bool? _prevIsActive = false;
+
+    protected override bool ShouldRender()
+    {
+        return _shouldRender;
+    }
+    protected override void OnParametersSet()
+    {
+        _shouldRender = (_prevIsActive == null || _prevIsActive != Item!.IsActive);
+        _prevIsActive = Item!.IsActive;
+        base.OnParametersSet();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+}

@@ -1,0 +1,28 @@
+﻿@inherits StackedPage
+<div class="@GetCssString()">
+    <Split Basis="33.3%">
+        <FirstPaneTemplate>
+            <Button OnClick="@NewSessionButtonClicked" Color="Color.Primary">New</Button>
+        </FirstPaneTemplate>
+        <SecondPaneTemplate>
+
+        </SecondPaneTemplate>
+    </Split>
+</div>
+
+@code {
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    
+    protected void NewSessionButtonClicked()
+    {
+        
+    }
+}

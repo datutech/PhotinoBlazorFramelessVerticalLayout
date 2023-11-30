@@ -1,0 +1,78 @@
+﻿@inject PhotinoService PhotinoService
+
+<div class="window-LC window-border" @onmousedown="OnBorderLCMouseDown"></div>
+<div class="window-RC window-border" @onmousedown="OnBorderRCMouseDown"></div>
+<div class="window-CT window-border" @onmousedown="OnBorderCTMouseDown"></div>
+<div class="window-LT window-border" @onmousedown="OnBorderLTMouseDown"></div>
+<div class="window-RT window-border" @onmousedown="OnBorderRTMouseDown"></div>
+<div class="window-CB window-border" @onmousedown="OnBorderCBMouseDown"></div>
+<div class="window-LB window-border" @onmousedown="OnBorderLBMouseDown"></div>
+<div class="window-RB window-border" @onmousedown="OnBorderRBMouseDown"></div>
+
+@code {
+
+    //Undocumented WM_SYSCOMMAND for resizing and moving the window
+    //https://stackoverflow.com/questions/763239/custom-form-designer-move-resize-controls-using-winapi
+    public enum ResizeDirection
+    {
+        LC = 0xF001, //Left
+        RC = 0xF002, //Right
+        CT = 0xF003, //Up
+        LT = 0xF004, //Up-left
+        RT = 0xF005, //Up-right
+        CB = 0xF006, //Down
+        LB = 0xF007, //Down-left
+        RB = 0xF008, //Down-right
+        Move = 0xF009 //Move
+    }
+
+    private void OnBorderLCMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.LC);
+    }
+    private void OnBorderRCMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.RC);
+    }
+    private void OnBorderCTMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.CT);
+    }
+    private void OnBorderLTMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.LT);
+    }
+    private void OnBorderRTMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.RT);
+    }
+    private void OnBorderCBMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.CB);
+    }
+    private void OnBorderLBMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.LB);
+    }
+    private void OnBorderRBMouseDown(MouseEventArgs e)
+    {
+        ResizeBorder(e.Button, ResizeDirection.RB);
+    }
+
+    private void ResizeBorder(long button, ResizeDirection direction)
+    {
+        // TODO: enable aero snap (screen docking)
+        // TODO: handle touch screen
+        // TODO: enable minimize animation
+        // MouseEventArgs.Button Left button=0, middle button=1 (if present), right button=2.
+        // We only accept resizing by left button
+        // Running a message loop synchronously in an event handler in Webview can cause reentrancy issue. Please refer to https://docs.microsoft.com/en-us/microsoft-edge/webview2/concepts/threading-model#re-entrancy for more information about threading model in WebView2 and how to enable native code debugging for this scenario.
+        // To fix this issue we use PostMessage instead of SendMessage
+        if (button == 0)
+        {
+            var mainWindow = PhotinoService.App!.MainWindow;
+            PhotinoService.ReleaseCapture();
+            PhotinoService.PostMessage(mainWindow.WindowHandle, PhotinoService.WM_SYSCOMMAND, (int)(direction), 0);
+        }
+    }
+}

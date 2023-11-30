@@ -1,0 +1,86 @@
+﻿@inject PhotinoService PhotinoService
+
+<div id="window-titlebar" class="window-titlebar">
+    <div class="titlebar-draggable">
+        <span>@Title</span>
+    </div>
+    <div class="titlebar-toolbar">
+        @if (ToolBarItemList != null)
+        {
+            foreach(var item in ToolBarItemList)
+            {
+                string cssClassString = "titlebar-toolbar-btn" + (item.Visible ? "" : " d-none");
+
+                <div class="@cssClassString" @onclick="()=>OnToolBarItemClicked(item)">
+                    <img src="@item.Icon">
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    public enum MainWindowState
+    {
+        Normal = 0,
+
+    }
+    public string Title { get; set; } = "Title";
+    private MainWindowState _mainWindowState = MainWindowState.Normal;
+
+    // Tool bar items from left to right in accending order
+    public List<ToolBarItem> ToolBarItemList { get; set; } = new()
+    {
+        new ToolBarItem()
+        {
+            Name = "window-minimize",
+            Icon = "icon/window-minimize.svg"
+        },
+        new ToolBarItem()
+        {
+            Name = "window-maximize",
+            Icon = "icon/window-maximize.svg"
+        },
+        new ToolBarItem()
+        {
+            Name = "window-restore",
+            Icon = "icon/window-normal.svg",
+            Visible = false
+        },
+        new ToolBarItem()
+        {
+            Name = "window-close",
+            Icon = "icon/window-close.svg"
+        },
+    };
+
+    private void OnToolBarItemClicked(ToolBarItem item)
+    {
+        var mainWindow = PhotinoService.App!.MainWindow;
+
+        if (item.Name == "window-minimize")
+        {
+            mainWindow.SetMinimized(true);
+        }
+        else if (item.Name == "window-maximize")
+        {
+            mainWindow.SetMaximized(true);
+            item.Visible = false;
+            ToolBarItemList.Find(x => x.Name == "window-restore")!.Visible = true;
+        }
+        else if (item.Name == "window-restore")
+        {
+            mainWindow.SetMaximized(false);
+            item.Visible = false;
+            ToolBarItemList.Find(x => x.Name == "window-maximize")!.Visible = true;
+        }
+        else if (item.Name == "window-close")
+        {
+            mainWindow.Close();
+        }
+        else
+        {
+            // Undefined
+        }
+    }
+}

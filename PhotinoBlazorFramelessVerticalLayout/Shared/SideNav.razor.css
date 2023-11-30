@@ -1,0 +1,14 @@
+﻿.sidenav-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.sidenav-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.sidenav-list.upper {
+    margin-bottom: auto;
+}
+

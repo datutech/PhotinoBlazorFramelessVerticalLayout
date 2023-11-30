@@ -1,0 +1,24 @@
+﻿.sidenav-link {
+    --dt-sidenav-link-active-color: rgba(255 255 255,1);
+    --dt-sidenav-link-active-bar-color: rgba(240,191,31,1);
+    --dt-sidenav-link-color: rgba(176,176,176,1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    border-left: 2px solid rgba(0,0,0,0);
+    color: var(--dt-sidenav-link-color);
+}
+    .sidenav-link.active,
+    .sidenav-link:hover {
+        color: var(--dt-sidenav-link-active-color);
+        cursor: pointer;
+    }
+    .sidenav-link.active {
+        border-left: 2px solid var(--dt-sidenav-link-active-bar-color);
+    }
+
+.tooltip {
+    --bs-tooltip-bg: var(--bd-violet-bg);
+    --bs-tooltip-color: var(--bs-white);
+}

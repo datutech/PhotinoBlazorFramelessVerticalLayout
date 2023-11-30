@@ -1,0 +1,46 @@
+﻿.window-titlebar {
+    top: 0;
+    width: 100%;
+    height: 38px;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .window-titlebar .titlebar-draggable {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        flex: 1;
+        user-select: none;
+        overflow: hidden;
+        app-region: drag; /* https://github.com/MicrosoftEdge/WebView2Feedback/issues/2243 */
+    }
+    .window-titlebar .titlebar-draggable span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.titlebar-toolbar {
+    display: flex;
+}
+.titlebar-toolbar-btn {
+    height: 100%;
+    width: 38px;
+    margin-left: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    /* border-radius: 4px; */
+}
+    .titlebar-toolbar-btn:hover {
+        background-color: var(--color-white10);
+        cursor: pointer;
+    }
+    .titlebar-toolbar-btn i {
+        width: 25px;
+        height: 25px;
+        pointer-events: none;
+    }

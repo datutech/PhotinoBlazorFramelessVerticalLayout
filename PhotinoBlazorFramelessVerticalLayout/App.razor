@@ -1,0 +1,46 @@
+﻿@inject IStringLocalizer Localizer
+<BootstrapBlazorRoot>
+    <CascadingValue Value="@_appCultureInfo">
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(EmptyLayout)" />
+        </Found>
+        <NotFound>
+            <PageTitle>@Localizer["PageNotFound"]</PageTitle>
+                <LayoutView Layout="@typeof(EmptyLayout)">
+                <p role="alert">@Localizer["PageNotFoundAlert"]</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+    </CascadingValue>
+</BootstrapBlazorRoot>
+
+@code {
+    private CultureInfo _appCultureInfo = new CultureInfo("en-US");
+
+    protected override Task OnInitializedAsync()
+    {
+        // TODO: read app config to determin which culture to use
+        SetAppDomainCultures("en-US");
+        return base.OnInitializedAsync();
+    }
+
+    public void SetAppDomainCultures(string name)
+    {
+        try
+        {
+            _appCultureInfo = CultureInfo.CreateSpecificCulture(name);
+            CultureInfo.DefaultThreadCurrentCulture = _appCultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = _appCultureInfo;
+        }
+        // If an exception occurs, we'll just fall back to the system default.
+        catch (CultureNotFoundException)
+        {
+            return;
+        }
+        catch (ArgumentException)
+        {
+            return;
+        }
+    }
+}

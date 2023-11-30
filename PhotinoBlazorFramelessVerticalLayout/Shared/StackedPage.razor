@@ -1,0 +1,43 @@
+﻿<div class="@GetCssString()">
+    @PageId
+</div>
+
+@code {
+    [Parameter]
+    public string? PageId { get; set; }
+    [Parameter]
+    public bool Active { get; set; } = false;
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected bool _prevActive = false;
+    protected bool _shouldRender = true;
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+    
+    protected override Task OnParametersSetAsync()
+    {
+        _shouldRender = _prevActive != Active;
+        _prevActive = Active;
+        return base.OnParametersSetAsync();
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override bool ShouldRender()
+    {
+        return _shouldRender;
+    }
+
+    protected string? GetCssString()
+    {
+        string cssClassStr = Active ? "d-block" : "d-none";
+        return cssClassStr;
+    }
+}

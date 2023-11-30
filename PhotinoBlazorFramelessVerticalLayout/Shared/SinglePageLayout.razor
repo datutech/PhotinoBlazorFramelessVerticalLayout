@@ -1,0 +1,36 @@
+﻿
+<section class="layout-container">
+    <aside class="sidenav text-bg-dark">
+        <SideNav NavIconList="@NavIconList" NavBottomIconList="@NavBottomIconList" OnClick="@HandleSideNavClicked"></SideNav>
+    </aside>
+    <section class="main-content">
+        <WebView2TitleBar></WebView2TitleBar>
+        <main>
+            @Main
+        </main>
+        @Footer
+    </section>
+
+    <WebView2ResizeBorders></WebView2ResizeBorders>
+</section>
+
+@code {
+    [Parameter]
+    public IEnumerable<MenuItem>? NavIconList{ get; set; }
+    [Parameter]
+    public IEnumerable<MenuItem>? NavBottomIconList{ get; set; }
+    [Parameter]
+    public Func<MenuItem, Task>? OnNavClick { get; set; }
+    [Parameter]
+    public RenderFragment? Main { get; set; }
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+
+    private async Task HandleSideNavClicked(MenuItem item)
+    {
+        if (OnNavClick != null)
+        {
+            await OnNavClick(item);
+        }
+    }
+}
